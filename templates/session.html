@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Flask_Chat_App</title>
+  </head>
+  <body>
+    <div id="inlinediv" style="position: fixed;">
+      <img src="/static/spongebob.jpeg" />
+      <form action="" method="POST">
+        <input type="text" class="message" placeholder="Messages" />
+        <input type="submit" />
+      </form>
+    </div>
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <h3 style="color: #ccc;font-size: 30px;">No message yet..</h3>
+    <div class="message_holder"></div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.min.js"></script>
+    <script type="text/javascript">
+      var socket = io.connect(
+        "http://" + document.domain + ":" + location.port
+      );
+
+      var patt = new RegExp("[ ]*");
+
+      function getUserName() {
+        user_name = prompt("Enter your username, can be anything:");
+
+        if (user_name == null || user_name.trim() == "") {
+          getUserName();
+        }
+      }
+
+      getUserName();
+
+      socket.on("connect", function() {
+        socket.emit("my event", {
+          data: "User Connected"
+        });
+        var form = $("form").on("submit", function(e) {
+          e.preventDefault();
+
+          let user_input = $("input.message")
+            .val()
+            .trim();
+          if (user_input.length > 50) {
+            alert("Don't spam please! Shorter messages.");
+            user_input = "Message was too long to be displayed lolz";
+          }
+          if (user_input != "") {
+            socket.emit("my event", {
+              user_name: user_name,
+              message: user_input,
+              host: location.hostname
+            });
+          }
+          $("input.message")
+            .val("")
+            .focus();
+        });
+      });
+      socket.on("my response", function(msg) {
+        if (typeof msg.user_name !== "undefined") {
+          $("h3").remove();
+          console.log(msg.font);
+          $("div.message_holder").append(
+            '<div><b style="color: #000;'+
+              " font-size:" +
+              msg.font +
+              'px;">'+
+              msg.user_name + "</b> " +": " +'<i style="color: #000;' +
+              " font-size:" +
+              msg.font +
+              'px;">'+
+              msg.message + "</i> " +
+              "</div>"
+          );
+        }
+      });
+    </script>
+  </body>
+</html>
