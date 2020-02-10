@@ -4,25 +4,21 @@
     <title>Flask_Chat_App</title>
   </head>
   <body>
-    <div id="inlinediv" style="position: fixed;">
+    <div id="inlinediv">
+      <h5>
+        The host and contributers of this platform do not take any resposibility
+        for the content shared here.
+      </h5>
+      <button onclick="openGit()">Contribute</button>
+    </div>
+    <br />
+    <div id="inlinediv">
       <img src="/static/spongebob.jpeg" />
       <form action="" method="POST">
         <input type="text" class="message" placeholder="Messages" />
         <input type="submit" />
       </form>
     </div>
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
     <br />
     <h3 style="color: #ccc;font-size: 30px;">No message yet..</h3>
     <div class="message_holder"></div>
@@ -31,6 +27,9 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.min.js"></script>
     <script type="text/javascript">
+      function openGit() {
+        window.open("https://github.com/ishwarc404/OpenChat");
+      }
       var socket = io.connect(
         "http://" + document.domain + ":" + location.port
       );
@@ -78,15 +77,19 @@
           $("h3").remove();
           console.log(msg.font);
           $("div.message_holder").append(
-            '<div><b style="color: #000;'+
+            '<div><b style="color: #000;' +
               " font-size:" +
               msg.font +
-              'px;">'+
-              msg.user_name + "</b> " +": " +'<i style="color: #000;' +
+              'px;">' +
+              msg.user_name +
+              "</b> " +
+              ": " +
+              '<i style="color: #000;' +
               " font-size:" +
               msg.font +
-              'px;">'+
-              msg.message + "</i> " +
+              'px;">' +
+              msg.message +
+              "</i> " +
               "</div>"
           );
         }

@@ -25,10 +25,11 @@ def handle_my_custom_event(json, methods=['GET', 'POST']):
         users_log[json["host"]] = users_log[json["host"]] + 0.2
 
 
-    json["font"] = 50/users_log[json["host"]]
+    #negative font function
+    json["font"] = 40/users_log[json["host"]]
 
     if(json["font"]<10):
-        json["font"] = 50
+        json["font"] = 40
         users_log[json["host"]] = 0
 
     print(json)
